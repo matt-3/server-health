@@ -1,0 +1,13 @@
+{
+  "versions": [
+    {
+      "version": "1.0.0",
+      "date": "2026-11-07",
+      "level": "feature",
+      "summary": {
+        "en": "first release",
+        "pt-BR": "primeira versão"
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# Fixture for the tests: one alerting indicator and one summary indicator.
+app = "my-app"
+
+[[indicator]]
+key = "orders_stuck"
+label = "Orders stuck in processing"
+sql = "SELECT count(*) FROM orders WHERE status = 'processing' AND updated_at < now() - interval '30 minutes'"
+critical_at = 1
+
+[[indicator]]
+key = "paid_orders_24h"
+label = "Paid orders (24h)"
+sql = "SELECT count(*) FROM orders WHERE paid_at > now() - interval '24 hours'"
+when = "summary"

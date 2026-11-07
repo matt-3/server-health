@@ -1,0 +1,10 @@
+Output format is unaligned.
+SET
+@@SH@@|size|440401920
+@@SH@@|conn|14
+@@SH@@|maxconn|100
+@@SH@@|long_tx|2
+@@SH@@|vacuum_stale|0
+@@SH@@|cache_hit|99.87
+@@SH@@|has_sq|true
+@@SH@@|has_rt|true

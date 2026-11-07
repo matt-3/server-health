@@ -1,0 +1,17 @@
+@@SH@@|sq_hb:Supervisor|20
+@@SH@@|sq_hb:Worker|20
+@@SH@@|sq_hb:Dispatcher|15
+@@SH@@|sq_hb:Scheduler|30
+@@SH@@|sq_failed_30m|0
+@@SH@@|sq_failed_24h|1
+@@SH@@|sq_ready:default|1 3
+@@SH@@|sq_sched_overdue|0
+@@SH@@|sq_rt_count|16
+@@SH@@|sq_task:settle_orders|every minute
+@@SH@@|sq_task:sync_inventory|every hour
+@@SH@@|sq_task:expire_trials|0 4 * * * America/Sao_Paulo
+@@SH@@|sq_rec:settle_orders|40 60 1440
+@@SH@@|sq_rec:sync_inventory|200 3600 24
+@@SH@@|sq_rec:expire_trials|50000 -1 1
+@@SH@@|ind:orders_stuck|0
+@@SH@@|ind:paid_orders_24h|3

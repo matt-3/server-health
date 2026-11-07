@@ -1,0 +1,3 @@
+@@SH@@|events|104857600
+@@SH@@|versions|52428800
+@@SH@@|solid_queue_jobs|10485760

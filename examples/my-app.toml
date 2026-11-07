@@ -1,0 +1,67 @@
+# Indicators of one app for server-health: a commented example.
+#
+# Each app keeps its TOML in its own repository (the SQL changes with its migrations).
+# On the server it lives in /etc/server-health/apps.d/<app>.toml. Format and rules in
+# docs/en/app-indicators.md.
+#
+# Counts and sums only: the result goes to Discord. No e-mail, name, IP or text written
+# by the people who use the app. Before shipping a change, run on the server:
+#   sudo server-health --check-app /tmp/my-app.toml
+
+app = "my-app"              # the app name in Dokku (required)
+name = "My App"             # optional; messages show the section as "My App (my-app)"
+database = "my-app-db"      # Dokku Postgres service; without it, the one linked to the app
+# health_path = "/up"       # optional; the default is /up
+jobs_dashboard = "/admin/jobs"  # optional; where the failed jobs are, quoted in the alerts
+
+# An app outside Dokku (Docker Compose, Kamal, systemd) says where its things are:
+# health_url = "https://my-app.example.com/up"
+# nginx_log = "/var/log/nginx/my-app.access.log"
+# database_url = "env:MY_APP_DATABASE_URL"   # the URL itself goes in /etc/default/server-health
+# database_container = "my-app-postgres-1"   # or psql inside this container
+
+# Upload traps, checked in the daily summary (both optional):
+storage_mount = true        # the app keeps uploaded files on disk: alert if Dokku has no storage mount
+max_body_size = "50m"       # the largest upload: alert if nginx or Thruster accept less
+
+# --- always: measured every round, they alert ---------------------------------
+
+[[indicator]]
+key = "orders_stuck"
+label = "Orders stuck in processing"
+# The time rule lives in the SQL; persist_min is for what oscillates.
+sql = "SELECT count(*) FROM orders WHERE status = 'processing' AND updated_at < now() - interval '15 minutes'"
+warn_at = 1
+critical_at = 5
+explanation = "the processing job stopped halfway: check Solid Queue"
+
+[[indicator]]
+key = "failed_webhooks"
+label = "Webhooks received and not processed (1h)"
+sql = "SELECT count(*) FROM webhook_events WHERE processed_at IS NULL AND created_at < now() - interval '10 minutes' AND created_at > now() - interval '1 hour'"
+critical_at = 1
+persist_min = 5
+explanation = "an event arrived and was not processed: fix the cause and reprocess it"
+
+[[indicator]]
+key = "signups_last_hour"
+label = "Sign-ups in the last hour"
+sql = "SELECT count(*) FROM users WHERE created_at > now() - interval '1 hour'"
+warn_at = 0
+direction = "below"         # alerts when the value falls to the limit
+active_hours = "09-23"      # outside these hours (SERVER_HEALTH_TZ) it never alerts
+
+# --- summary: only in the daily summary, they never alert -----------------------
+
+[[indicator]]
+key = "signups_24h"
+label = "Sign-ups (24h)"
+sql = "SELECT count(*) FROM users WHERE created_at > now() - interval '24 hours'"
+when = "summary"
+
+[[indicator]]
+key = "revenue_24h"
+label = "Revenue (24h)"
+sql = "SELECT coalesce(sum(amount_cents), 0) FROM payments WHERE status = 'paid' AND paid_at > now() - interval '24 hours'"
+when = "summary"
+format = "cents"

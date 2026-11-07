@@ -1,0 +1,50 @@
+[
+ {
+  "Id": "aaa111aaa111aaa111",
+  "Name": "/my-app.web.1",
+  "Created": "2026-10-28T12:00:00.000000000Z",
+  "RestartCount": 0,
+  "State": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-10-28T12:00:05.1Z"
+  },
+  "Config": {
+   "Env": [
+    "SECRET_KEY_BASE=must-not-leak",
+    "GIT_REV=a1b2c3d4e5f6",
+    "PORT=5000"
+   ]
+  }
+ },
+ {
+  "Id": "bbb222bbb222bbb222",
+  "Name": "/my-app.worker.1",
+  "Created": "2026-10-28T12:00:00.000000000Z",
+  "RestartCount": 0,
+  "State": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-10-28T12:00:06.1Z"
+  },
+  "Config": {
+   "Env": [
+    "GIT_REV=a1b2c3d4e5f6"
+   ]
+  }
+ },
+ {
+  "Id": "ccc333ccc333ccc333",
+  "Name": "/dokku.postgres.my-app-db",
+  "Created": "2026-10-17T12:00:00Z",
+  "RestartCount": 0,
+  "State": {
+   "Running": true,
+   "OOMKilled": false,
+   "StartedAt": "2026-10-17T12:00:00Z"
+  },
+  "Config": {
+   "Env": []
+  }
+ }
+]

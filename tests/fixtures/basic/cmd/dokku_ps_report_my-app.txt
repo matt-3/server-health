@@ -1,0 +1,4 @@
+=====> my-app ps information
+       Deployed:                      true
+       Processes:                     2
+       Running:                       true
